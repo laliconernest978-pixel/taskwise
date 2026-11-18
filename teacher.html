@@ -1,0 +1,53 @@
+<!-- CREATE ASSIGNMENT SECTION -->
+<section id="createSection" class="page-section hidden">
+    <h2>Create & Post Assignment</h2>
+    <p style="margin-bottom:20px;">Fill in details, attach files → send to students.</p>
+    <form id="createAssignmentForm"> <!-- Add form ID if missing -->
+        <div class="form-group">
+            <label>Subject</label>
+            <select id="assignmentSubject"> <!-- Changed from assignSubject -->
+                <option value="">Select Subject</option>
+                <option>Mathematics</option>
+                <option>Science</option>
+                <option>English</option>
+                <option>Filipino</option>
+                <option>Social Studies</option>
+                <option>TLE</option>
+                <option>MAPEH</option>
+                <option>Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Title / Task Name</label>
+            <input type="text" id="assignmentTitle" placeholder="e.g. Chapter 3 Activity"> <!-- Changed from assignTitle -->
+        </div>
+        <div class="form-group">
+            <label>Instructions / Description</label>
+            <textarea id="assignmentInstructions" rows="4" placeholder="Details, requirements..."></textarea> <!-- Changed from assignDesc -->
+        </div>
+        <div class="form-group">
+            <label>Assign to Grade Level</label>
+            <select id="assignmentGrade" required> <!-- Changed from assignGrade -->
+                <option value="">Select target grade</option>
+                <option>Grade 7</option><option>Grade 8</option><option>Grade 9</option>
+                <option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+                <option value="All">All Grades</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Section (leave blank for all sections in that grade)</label>
+            <input type="text" id="assignmentSection" placeholder="e.g. Sampaguita"> <!-- Changed from assignSection -->
+        </div>
+        <div class="form-group">
+            <label>Due Date</label>
+            <input type="date" id="assignmentDueDate"> <!-- Changed from assignDue -->
+        </div>
+        <div class="form-group">
+            <label>Attach File (PDF, Doc, Image, etc.)</label>
+            <input type="file" id="assignmentFile"> <!-- Changed from assignFile -->
+            <p class="attach-note">Optional — students can download this from their dashboard.</p>
+        </div>
+        <button type="submit" class="primary-btn">📤 Post to Students</button>
+        <p id="postStatus" style="margin-top:12px;"></p>
+    </form>
+</section>

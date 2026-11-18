@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — TaskWise | Mangaldan National High School</title>
+  <link rel="stylesheet" href="./style/style.css">  <!-- ✅ MATCHES YOUR LOGIN FILE PATH -->
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">T</div>
+      <div>
+        <h2>TaskWise</h2>
+        <span>Mangaldan National High School</span>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <button class="nav-item active" data-view="dashboard">📊 Dashboard</button>
+      <button class="nav-item" data-view="users">👤 Manage Users</button>
+      <button class="nav-item" data-view="assignments">📝 Assignments</button>
+      <button class="nav-item" data-view="settings">⚙️ System Settings</button>
+      <button class="nav-item" data-view="reports">📈 Reports</button>
+      <button class="nav-item" data-view="verification">✔️ Account Verification</button>
+      <button class="nav-item add-nav" data-view="add-user">➕ Add New User</button>
+      <button class="nav-item logout-nav" id="logoutBtn">🚪 Logout</button>
+    </nav>
+
+    <div class="school-info">
+      <strong>TaskWise System</strong>
+      <span>Administrator Control Panel</span>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1 id="pageTitle">Dashboard</h1>
+        <p>Welcome back, <span id="adminName"></span></p>
+      </div>
+      <div class="profile">
+        <div class="avatar" id="adminAvatar">A</div>
+        <div>
+          <strong id="adminNameShort">Admin</strong>
+          <span>System Administrator</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WELCOME BANNER -->
+    <div class="welcome" id="welcomeSection">
+      <div>
+        <h2>🔐 Full System Access</h2>
+        <p>TaskWise — Assignment Tracking & Deadline Reminder System for Mangaldan National High School</p>
+      </div>
+      <span class="voice-note">🔊 Voice Active</span>
+    </div>
+
+    <!-- STATS GRID -->
+    <div class="stats-grid" id="statsSection">
+      <div class="stat-card">
+        <div class="stat-icon blue">👥</div>
+        <div>
+          <span>Total Users</span>
+          <strong id="statTotal">0</strong>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">👨‍🏫</div>
+        <div>
+          <span>Teachers</span>
+          <strong id="statTeachers">0</strong>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange">🎓</div>
+        <div>
+          <span>Students</span>
+          <strong id="statStudents">0</strong>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon red">🔐</div>
+        <div>
+          <span>Admins</span>
+          <strong id="statAdmins">0</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div class="panel" id="dashboardView">
+      <div class="panel-heading">
+        <div>
+          <h2>System Overview</h2>
+          <p>Assignment Tracking & Deadline Reminder — Mangaldan National High School</p>
+        </div>
+      </div>
+      <div class="assignment-list">
+        <div class="assignment-card">
+          <div class="assignment-info">
+            <h3>User Management</h3>
+            <p>Add, edit, or deactivate teacher and student accounts.</p>
+            <span class="subject-tag">Core Feature</span>
+          </div>
+          <div class="assignment-actions">
+            <button class="primary-btn" data-switch="users">Manage Users</button>
+          </div>
+        </div>
+        <div class="assignment-card">
+          <div class="assignment-info">
+            <h3>Assignments & Deadlines</h3>
+            <p>Monitor all posted assignments, due dates, and submission status.</p>
+            <span class="subject-tag">Tracking</span>
+          </div>
+          <div class="assignment-actions">
+            <button class="secondary-btn" data-switch="assignments">View All</button>
+          </div>
+        </div>
+        <div class="assignment-card">
+          <div class="assignment-info">
+            <h3>System Settings</h3>
+            <p>Configure school year, notification rules, and access policies.</p>
+            <span class="subject-tag">Configuration</span>
+          </div>
+          <div class="assignment-actions">
+            <button class="secondary-btn" data-switch="settings">Configure</button>
+          </div>
+        </div>
+        <div class="assignment-card">
+          <div class="assignment-info">
+            <h3>Activity Reports</h3>
+            <p>Login history, usage statistics, and system logs.</p>
+            <span class="subject-tag">Analytics</span>
+          </div>
+          <div class="assignment-actions">
+            <button class="secondary-btn" data-switch="reports">View Reports</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MANAGE USERS VIEW -->
+    <div class="panel hidden" id="usersView">
+      <div class="panel-heading">
+        <div>
+          <h2>Registered Users</h2>
+          <p>Manage all accounts in the TaskWise system</p>
+        </div>
+        <button class="link-btn" data-switch="add-user">+ Add New User</button>
+      </div>
+      <div class="student-table" style="overflow-x:auto;">
+        <div class="student-row header" style="grid-template-columns:1.1fr 1fr .8fr 1.5fr 1.2fr;">
+          <div>Full Name</div>
+          <div>Username</div>
+          <div>Role</div>
+          <div>Grade / Section / Class Teacher</div>
+          <div>Actions</div>
+        </div>
+        <div id="userTableBody"></div>
+      </div>
+    </div>
+
+    <!-- ACCOUNT VERIFICATION VIEW -->
+    <div class="panel hidden" id="verificationView">
+      <div class="panel-heading">
+        <div>
+          <h2>Account Verification</h2>
+          <p>Review, approve, or reject pending teacher and student sign-ups</p>
+        </div>
+      </div>
+      <div class="stats-grid" style="margin-bottom: 20px;">
+        <div class="stat-card">
+          <div class="stat-icon orange">⏳</div>
+          <div>
+            <span>Pending</span>
+            <strong id="verifyPending">0</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div>
+            <span>Approved</span>
+            <strong id="verifyApproved">0</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">❌</div>
+          <div>
+            <span>Rejected</span>
+            <strong id="verifyRejected">0</strong>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+        <input type="text" id="verifySearch" placeholder="Search by name or username..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; flex: 1; min-width: 200px;">
+        <select id="verifyRole" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1;">
+          <option value="all">All Roles</option>
+          <option value="teacher">Teachers</option>
+          <option value="student">Students</option>
+        </select>
+        <select id="verifyStatus" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1;">
+          <option value="all">All Statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+      </div>
+      <div id="verificationList"></div>
+    </div>
+
+    <!-- ADD USER VIEW -->
+    <div class="panel hidden" id="add-userView">
+      <div class="panel-heading">
+        <div>
+          <h2>Create New User</h2>
+          <p>Add teacher, student, or administrator account</p>
+        </div>
+        <button class="link-btn" data-switch="users">← Back to Users</button>
+      </div>
+      <form id="addUserForm">
+        <label>
+          Full Name
+          <input type="text" id="newName" placeholder="e.g. Maria Santos" required>
+        </label>
+        <label>
+          Username / ID
+          <input type="text" id="newUsername" placeholder="Login ID" required>
+        </label>
+        <label>
+          Password
+          <input type="password" id="newPassword" placeholder="Create secure password" required>
+        </label>
+        <label>
+          Role / Access Level
+          <select id="newRole" required>
+            <option value="">— Select Role —</option>
+            <option value="admin">Administrator</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+          </select>
+        </label>
+        <label>Grade Level (for students / teacher's assigned grade)
+          <select id="newGrade">
+            <option value="">Select Grade (optional for admin)</option>
+            <option>Grade 7</option><option>Grade 8</option><option>Grade 9</option>
+            <option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+          </select>
+        </label>
+        <label>Section
+          <input type="text" id="newSection" placeholder="e.g. Sampaguita">
+        </label>
+        <label>Class Teacher (for student accounts)
+          <select id="newClassTeacher"><option value="">Select student's class teacher</option></select>
+        </label>
+        <div style="display:flex; gap:12px; margin-top:24px;">
+          <button type="submit" class="primary-btn">✅ Create Account</button>
+          <button type="reset" class="secondary-btn">Reset Form</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ASSIGNMENTS VIEW -->
+    <div class="panel hidden" id="assignmentsView">
+      <div class="panel-heading">
+        <div>
+          <h2>All Assignments</h2>
+          <p>Track assignments and deadlines across all classes</p>
+        </div>
+      </div>
+      <div id="adminAssignmentsList" class="assignment-list">
+        <div class="empty-state"><h3>No assignments posted yet</h3><p>Teacher posts will appear here automatically.</p></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS VIEW -->
+    <div class="panel hidden" id="settingsView">
+      <div class="panel-heading">
+        <div>
+          <h2>System Settings</h2>
+          <p>TaskWise — Mangaldan National High School Configuration</p>
+        </div>
+      </div>
+      <div class="empty-state">
+        <h3>Settings Panel</h3>
+        <p>School Year, Notification Preferences, and Security Policies will appear here.</p>
+      </div>
+    </div>
+
+    <!-- REPORTS VIEW -->
+    <div class="panel hidden" id="reportsView">
+      <div class="panel-heading">
+        <div>
+          <h2>Reports & Analytics</h2>
+          <p>System Activity — Mangaldan National High School</p>
+        </div>
+      </div>
+      <div class="empty-state">
+        <h3>Reports Dashboard</h3>
+        <p>Login logs, user activity, and system performance data will appear here.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- EDIT USER MODAL -->
+<div class="modal hidden" id="editModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <h2>Edit User Account</h2>
+        <p>Update account information</p>
+      </div>
+      <button class="close-btn" id="closeEditModal">&times;</button>
+    </div>
+    <form id="editUserForm">
+      <input type="hidden" id="editIndex">
+      <label>
+        Full Name
+        <input type="text" id="editName" required>
+      </label>
+      <label>
+        Username / ID
+        <input type="text" id="editUsername" required>
+      </label>
+      <label>
+        Password
+        <input type="password" id="editPassword" required>
+      </label>
+      <label>
+        Role
+        <select id="editRole" required>
+          <option value="admin">Administrator</option>
+          <option value="teacher">Teacher</option>
+          <option value="student">Student</option>
+        </select>
+      </label>
+      <label>Grade Level
+        <select id="editGrade">
+          <option value="">Not specified</option>
+          <option>Grade 7</option><option>Grade 8</option><option>Grade 9</option>
+          <option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+        </select>
+      </label>
+      <label>Section <input type="text" id="editSection" placeholder="e.g. Sampaguita"></label>
+      <label>Class Teacher (for student accounts)
+        <select id="editClassTeacher"><option value="">No class teacher selected</option></select>
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="light-btn" id="cancelEdit">Cancel</button>
+        <button type="submit" class="primary-btn">💾 Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="./js/admin.js"></script>
+</body>
+</html>

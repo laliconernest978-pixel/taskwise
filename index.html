@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskWise - Login</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+<body class="login-page">
+<div class="login-container">
+    <div class="login-logo">
+        <div class="big-logo">✓</div>
+        <h1>TaskWise</h1>
+        <p>Assignment Tracking and Deadline Reminder System</p>
+        <span>Mangaldan National High School</span>
+        <div class="voice-note">🔊 Female voice welcome is enabled</div>
+    </div>
+    <div class="login-card">
+        <h2>Welcome to TaskWise</h2>
+        <p class="login-subtitle">Login to continue to your portal</p>
+        <form id="loginForm">
+            <label for="username">Username
+                <input id="username" type="text" placeholder="Enter username"
+                       autocomplete="username" required>
+            </label>
+            <label for="password">Password
+                <input id="password" type="password" placeholder="Enter password"
+                       autocomplete="current-password" required>
+            </label>
+            <label for="role">Login as
+                <select id="role" required>
+                    <option value="">Select your role</option>
+                    <option value="admin">🛡️ Administrator</option>
+                    <option value="teacher">👩‍🏫 Teacher</option>
+                    <option value="student">👩‍🎓 Student</option>
+                </select>
+            </label>
+            <button class="primary-btn login-btn" type="submit">Login</button>
+        </form>
+        <button class="register-link-btn" type="button" onclick="openRegisterModal()">
+            ✨ Create a Student / Teacher Account
+        </button>
+        <div id="loginMessage" class="login-message" aria-live="polite"></div>
+        <div class="demo-accounts">
+            <h3>Demo Accounts</h3>
+            <p>🛡️ Admin: <strong>admin</strong> / <strong>admin123</strong></p>
+            <p>👩‍🏫 Teacher: <strong>teacher</strong> / <strong>teacher123</strong></p>
+            <p>👩‍🎓 Student: <strong>student</strong> / <strong>student123</strong></p>
+        </div>
+    </div>
+</div>
+<!-- Registration Modal -->
+<div id="registerModal" class="modal hidden">
+    <div class="modal-card register-card">
+        <div class="modal-header">
+            <div>
+                <h2>Create Account</h2>
+                <p>Register a student or teacher profile.</p>
+            </div>
+            <button class="close-btn" type="button" onclick="closeRegisterModal()">×</button>
+        </div>
+        <form id="registerForm">
+            <div class="register-grid">
+                <label>Full Name
+                    <input id="registerName" type="text" placeholder="e.g. Maria Santos" required>
+                </label>
+                <label>Username
+                    <input id="registerUsername" type="text" placeholder="Choose a username" required>
+                </label>
+                <label>Password
+                    <input id="registerPassword" type="password" placeholder="Create a password" required>
+                </label>
+                <label>Register as
+                    <select id="registerRole" required>
+                        <option value="">Select role</option>
+                        <option value="student">👩‍🎓 Student</option>
+                        <option value="teacher">👩‍🏫 Teacher</option>
+                        <option value="admin">🛡️ Admin</option>
+                    </select>
+                </label>
+            </div>
+            <label>Profile Picture
+                <input id="registerPicture" type="file" accept="image/*">
+                <small class="field-help">Choose a picture. It will appear on the dashboard after login.</small>
+            </label>
+            <div id="picturePreview" class="picture-preview hidden">
+                <img id="previewImage" alt="Profile preview">
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" onclick="closeRegisterModal()">Cancel</button>
+                <button type="submit" class="primary-btn">Register Account</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="./js/login.js"></script>
+</body>
+</html>
