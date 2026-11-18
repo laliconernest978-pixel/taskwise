@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskWise - Teacher Dashboard</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <style>
+        .page-section { display: block; }
+        .page-section.hidden { display: none !important; }
+        .nav-item {
+            width: 100%; text-align: left; margin: 4px 0;
+            padding: 10px 14px; background: transparent; border: none;
+            border-radius: 8px; cursor: pointer; font-size: 0.95em;
+            color: #475569; transition: all 0.2s;
+        }
+        .nav-item.active { background: #eef2ff; color: #3730a3; font-weight: 600; }
+        .logout-nav { margin-top: auto; color: #d32f2f; }
+        .stat-card {
+            background: #fff; border-radius: 12px; padding: 16px 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .stat-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2em;
+        }
+        .stat-icon.blue { background: #eef2ff; }
+        .stat-icon.orange { background: #fff7ed; }
+        .stat-icon.green { background: #f0fdf4; }
+        .form-card {
+            background: #fff; border-radius: 12px; padding: 24px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05); margin-bottom: 20px;
+        }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; font-weight: 500; color: #1e293b; }
+        input, select, textarea {
+            width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0;
+            border-radius: 6px; font-size: 0.95em;
+        }
+        button.primary-btn {
+            padding: 10px 20px; background: #3730a3; color: #fff;
+            border: none; border-radius: 6px; cursor: pointer; font-weight: 500;
+        }
+        button.primary-btn:hover { background: #4f46e5; }
+        button.danger-btn {
+            padding: 6px 12px; background: #fef2f2; color: #dc2626;
+            border: none; border-radius: 6px; cursor: pointer; font-size: 0.9em;
+        }
+        .assignment-row {
+            padding: 16px; background: #fff; border-radius: 8px; margin-bottom: 10px;
+            border-left: 4px solid #3730a3;
+        }
+        .subject-tag {
+            display: inline-block; background: #eef2ff; color: #3730a3;
+            padding: 4px 10px; border-radius: 20px; font-size: 0.85em; margin: 4px 0;
+        }
+        .status-badge {
+            display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.85em; margin-left: 8px;
+        }
+        .status-badge.completed { background: #f0fdf4; color: #166534; }
+        .status-badge.pending { background: #fff7ed; color: #92400e; }
+        .empty-state { text-align: center; padding: 40px 20px; color: #94a3b8; }
+        .attach-note { font-size: 0.85em; color: #64748b; margin-top: 4px; }
+        .app-layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: #f8fafc; border-right: 1px solid #e2e8f0; padding: 20px; display: flex; flex-direction: column; }
+        .main { flex: 1; padding: 24px; background: #fafafa; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+        .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+        .brand-icon {
+            width: 40px; height: 40px; border-radius: 10px; background: #3730a3; color: #fff;
+            display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2em;
+        }
+        .profile { display: flex; align-items: center; gap: 10px; }
+        .avatar {
+            width: 36px; height: 36px; border-radius: 50%; background: #3730a3; color: #fff;
+            display: flex; align-items: center; justify-content: center; font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">✓</div>
+            <div><h2>TaskWise</h2><span>Teacher Portal</span></div>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item active" data-section="teacherDashboardSection" onclick="showDashboard()">🏠 Dashboard</button>
+            <button class="nav-item" data-section="createSection" onclick="showCreate()">➕ Create Assignment</button>
+            <button class="nav-item" data-section="postedSection" onclick="showPosted()">📋 Posted</button>
+            <button class="nav-item logout-nav" onclick="logout()">🚪 Logout</button>
+        </nav>
+        <div class="school-info" style="margin-top:20px; text-align:center; color:#64748b; font-size:0.9em;">
+            <strong>Mangaldan National</strong><br>High School
+        </div>
+    </aside>
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <h1>Teacher Dashboard</h1>
+                <p>Manage assignments and share files with your students.</p>
+            </div>
+            <div class="profile">
+                <div class="avatar">T</div>
+                <div>
+                    <strong id="teacherName">Teacher</strong><br><span>Faculty</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="teacherDashboardSection" class="page-section">
+            <h2>Welcome, Teacher! 👋</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">📚</div>
+                    <div><span>Total Posted</span><strong id="totalPosted">0</strong></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">⏳</div>
+                    <div><span>Pending</span><strong id="totalPending">0</strong></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <div><span>Completed</span><strong id="totalDone">0</strong></div>
+                </div>
+            </div>
+            <div class="form-card">
+                <h3>Quick Actions</h3>
+                <p style="margin:8px 0 16px;">Create new assignments or view what you've shared.</p>
+                <button class="primary-btn" onclick="showCreate()">➕ Post New Assignment</button>
+            </div>
+        </section>
+
+        <!-- CREATE ASSIGNMENT -->
+        <section id="createSection" class="page-section hidden">
+            <h2>Create & Post Assignment</h2>
+            <p style="margin-bottom:20px;">Fill in details, attach files → send to students.</p>
+            <div class="form-card">
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select id="assignSubject">
+                        <option value="">Select Subject</option>
+                        <option>Mathematics</option>
+                        <option>Science</option>
+                        <option>English</option>
+                        <option>Filipino</option>
+                        <option>Social Studies</option>
+                        <option>TLE</option>
+                        <option>MAPEH</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Title / Task Name</label>
+                    <input type="text" id="assignTitle" placeholder="e.g. Chapter 3 Activity">
+                </div>
+                <div class="form-group">
+                    <label>Instructions / Description</label>
+                    <textarea id="assignDesc" rows="4" placeholder="Details, requirements..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Assign to Grade Level</label>
+                    <select id="assignGrade" required>
+                        <option value="">Select target grade</option>
+                        <option>Grade 7</option><option>Grade 8</option><option>Grade 9</option>
+                        <option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+                        <option value="All">All Grades</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Section (leave blank for all sections in that grade)</label>
+                    <input type="text" id="assignSection" placeholder="e.g. Sampaguita">
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" id="assignDue">
+                </div>
+                <div class="form-group">
+                    <label>Attach File (PDF, Doc, Image, etc.)</label>
+                    <input type="file" id="assignFile">
+                    <p class="attach-note">Optional — students can download this from their dashboard.</p>
+                </div>
+                <button class="primary-btn" onclick="postAssignment()">📤 Post to Students</button>
+                <p id="postStatus" style="margin-top:12px;"></p>
+            </div>
+        </section>
+
+        <!-- POSTED LIST -->
+        <section id="postedSection" class="page-section hidden">
+            <h2>Assignments You Posted</h2>
+            <p style="margin-bottom:20px;">See all shared tasks & completion status.</p>
+            <div id="postedList"></div>
+        </section>
+    </main>
+</div>
+<script src="./js/teacher.js"></script>
+</body>
+</html>
